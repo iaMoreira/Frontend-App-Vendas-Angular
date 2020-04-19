@@ -1,23 +1,31 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { ProductDetailsComponent } from './product-details/product-details.component';
-import { ProductListComponent } from './product-list/product-list.component';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: '', component: ProductListComponent },
-  { path: 'products/:productId', component: ProductDetailsComponent },
+  {
+    path: '',
+    loadChildren : './home/home.module#HomeModule'
+  },
+  {
+    path: 'products',
+    loadChildren: './products/products.module#ProductsModule'
+  },
 
 ];
 
 @NgModule({
    imports: [
-      RouterModule.forRoot(routes)
+      RouterModule.forRoot(routes,  {
+        // preload all modules; optionally we could
+        // implement a custom preloading strategy for just some
+        // of the modules (PRs welcome 😉)
+        preloadingStrategy: PreloadAllModules
+      })
    ],
    exports: [
       RouterModule
    ],
-   declarations: [
-   ]
+   declarations: []
 })
 export class AppRoutingModule { }

@@ -1,0 +1,48 @@
+
+<div class="d-flex justify-content-between bg-light p-2 mb-2">
+   <h3> Lista de Produtos </h3>
+   <a class="btn btn-primary" [routerLink]="['/products/store']">Novo produto</a>
+</div>
+
+<div *ngFor="let product of products" class="jumbotron d-flex ">
+
+  <div class="mr-4 w-25">
+    <img src="https://images-americanas.b2w.io/produtos/01/00/img/1521500/6/1521500633_1GG.jpg" alt="..." width="200" height="200" class="img-thumbnail">
+  </div>
+  <div class=" w-75">
+    <h3>
+      <a [title]="product.nome + ' details'"  [routerLink]="['/products', product.id]">
+        {{ product.nome }}
+      </a>
+    </h3>
+
+    <p *ngIf="product.descricao">
+      Description: {{ product.descricao }}
+    </p>
+
+    <div class="d-inline p-2">
+      <button (click)="share()" class="btn btn-primary mr-2">
+        Compartilhar
+      </button>
+
+      <a [routerLink]="['/products', product.id, 'update']" class="btn btn-info mr-2">
+        Atualizar
+      </a>
+
+      <button (click)="delete(product.id)" class="btn btn-danger">
+        Deletar
+      </button>
+    </div>
+
+
+  </div>
+
+<!-- <app-product-alerts
+  [product]="product" (notify)="onNotify()">
+</app-product-alerts> -->
+</div>
+<!--
+Copyright Google LLC. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+-->

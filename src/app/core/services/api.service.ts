@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../environments/environment';
+import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { BaseEntity } from './base-entity';
+import { BaseEntity } from '../entities/base-entity';
 
 
 const API_URL = environment.apiUrl;
@@ -40,7 +40,7 @@ export class ApiService<T extends BaseEntity> {
     );
   }
 
-  /* GET heroes whose name contains search term */
+  /* GET entities whose name contains search term */
   search(term: string): Observable<T[]> {
     if (!term.trim()) {
       // if not search term, return empty T array.
@@ -57,7 +57,7 @@ export class ApiService<T extends BaseEntity> {
    //////// Save methods //////////
 
   /** POST: add a new entity to the server */
-  addHero (entity: T): Observable<T> {
+  public save (entity: T): Observable<T> {
     return this.api.post<T>(this.baseUrl, entity, this.httpOptions).pipe(
       tap((newEntity: T) => this.log(`added entity w/ id=${newEntity.id}`)),
       catchError(this.handleError<T>('addHero'))
@@ -65,8 +65,7 @@ export class ApiService<T extends BaseEntity> {
   }
 
   /** DELETE: delete the entity from the server */
-  deleteHero (entity: T | number): Observable<T> {
-    const id = typeof entity === 'number' ? entity : entity.id;
+   public delete (id: number): Observable<T> {
     const url = `${this.baseUrl}/${id}`;
 
     return this.api.delete<T>(url, this.httpOptions).pipe(
@@ -76,8 +75,10 @@ export class ApiService<T extends BaseEntity> {
   }
 
   /** PUT: update the entity on the server */
-  updateHero (entity: T): Observable<any> {
-    return this.api.put(this.baseUrl, entity, this.httpOptions).pipe(
+  public update (id: number, entity: T): Observable<any> {
+    const url = `${this.baseUrl}/${id}`;
+
+    return this.api.put(url , entity, this.httpOptions).pipe(
       tap(_ => this.log(`updated entity id=${entity.id}`)),
       catchError(this.handleError<any>('updateHero'))
     );

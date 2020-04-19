@@ -1,27 +1,31 @@
 import { Component } from '@angular/core';
 
-import {Product} from '../product';
-import {ProductService} from '../product.service';
+import {Product} from '../shared/models/product.model';
+import {ProductService} from '../shared/services/product.service';
 
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent {
   products = [];
 
-  constructor(private heroService: ProductService) { }
+  constructor(private service: ProductService) { }
 
   ngOnInit() {
-    this.getHeroes();
+    this.getAll();
   }
 
-  getHeroes(): void {
-    this.heroService.getAll()
+  getAll(): void {
+    this.service.getAll()
     .subscribe(products => this.products = products.content);
   }
+
+  delete(id) {
+    this.service.delete(id).subscribe(() => this.getAll());
+  }
+
   share() {
     window.alert('The product has been shared!');
   }
