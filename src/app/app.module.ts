@@ -7,10 +7,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductsModule } from './products/products.module';
 import { HomeModule } from './home/home.module';
 import { SharedModule } from './shared/shared.module';
+// import { AuthModule } from './home/auth/auth.module';
 
 //
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CoreModule } from './core/core.module';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { AppComponent } from './app.component';
       ProductsModule,
       HomeModule,
       SharedModule,
+      // AuthModule,
+      CoreModule,
 
    ],
    providers: [],

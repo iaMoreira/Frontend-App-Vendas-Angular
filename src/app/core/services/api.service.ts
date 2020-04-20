@@ -1,105 +1,53 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
+import { Observable ,  throwError } from 'rxjs';
 
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { BaseEntity } from '../entities/base-entity';
+import { JwtService } from './jwt.service';
+import { catchError } from 'rxjs/operators';
 
+@Injectable()
+export class ApiService {
+  constructor(
+    private http: HttpClient,
+    private jwtService: JwtService,
+  ) {
 
-const API_URL = environment.apiUrl;
-
-@Injectable({
-  providedIn: 'root'
-})
-export class ApiService<T extends BaseEntity> {
-  protected baseUrl = API_URL;  // Essa Url tem que ser reinstanciada
-
-  constructor(  protected api: HttpClient,  ) { }
+  }
 
   protected httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      // 'Authorization': 'my-auth-token'
     })
   };
 
-  public getAll (): any {
-    return this.api.get(this.baseUrl)
-      .pipe(
-        tap(_ => this.log('fetched Products')),
-        catchError(this.handleError<T[]>('getAll', []))
-      );
+  private formatErrors(error: any) {
+    return  throwError(error.error);
   }
 
-  public getOne(id: number): Observable<T> {
-    const url = `${this.baseUrl}/${id}`;
-    return this.api.get<T>(url).pipe(
-      tap(_ => this.log(`fetched Enity id=${id}`)),
-      catchError(this.handleError<T>(`getOne id=${id}`))
-    );
+  get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+    return this.http.get(`${environment.api_url}${path}`, { params })
+      .pipe(catchError(this.formatErrors));
   }
 
-  /* GET entities whose name contains search term */
-  search(term: string): Observable<T[]> {
-    if (!term.trim()) {
-      // if not search term, return empty T array.
-      return of([]);
-    }
-    return this.api.get<T[]>(`${this.baseUrl}/?name=${term}`).pipe(
-      tap(x => x.length ?
-          this.log(`found heroes matching "${term}"`) :
-          this.log(`no heroes matching "${term}"`)),
-      catchError(this.handleError<T[]>('searchHeroes', []))
-    );
+  put(path: string, body: Object = {}): Observable<any> {
+    return this.http.put(
+      `${environment.api_url}${path}`,
+      JSON.stringify(body), this.httpOptions
+    ).pipe(catchError(this.formatErrors));
   }
 
-   //////// Save methods //////////
-
-  /** POST: add a new entity to the server */
-  public save (entity: T): Observable<T> {
-    return this.api.post<T>(this.baseUrl, entity, this.httpOptions).pipe(
-      tap((newEntity: T) => this.log(`added entity w/ id=${newEntity.id}`)),
-      catchError(this.handleError<T>('addHero'))
-    );
+  post(path: string, body: Object = {}): Observable<any> {
+    return this.http.post(
+      `${environment.api_url}${path}`,
+      body,
+      this.httpOptions
+    ).pipe(catchError(this.formatErrors));
   }
 
-  /** DELETE: delete the entity from the server */
-   public delete (id: number): Observable<T> {
-    const url = `${this.baseUrl}/${id}`;
-
-    return this.api.delete<T>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted entity id=${id}`)),
-      catchError(this.handleError<T>('deleteHero'))
-    );
-  }
-
-  /** PUT: update the entity on the server */
-  public update (id: number, entity: T): Observable<any> {
-    const url = `${this.baseUrl}/${id}`;
-
-    return this.api.put(url , entity, this.httpOptions).pipe(
-      tap(_ => this.log(`updated entity id=${entity.id}`)),
-      catchError(this.handleError<any>('updateHero'))
-    );
-  }
-
-  public handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
-
-  public log(message: string) {
-    console.log(`Service: ${message}`);
+  delete(path): Observable<any> {
+    return this.http.delete(
+      `${environment.api_url}${path}`
+    ).pipe(catchError(this.formatErrors));
   }
 }
-

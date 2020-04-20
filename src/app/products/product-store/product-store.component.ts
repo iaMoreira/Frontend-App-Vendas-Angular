@@ -23,9 +23,9 @@ export class ProductStoreComponent implements OnInit {
       private service: ProductService,
     ) {
       this.form = this.formBuilder.group({
-        nome: ['', Validators.required],
-        preco: ['', Validators.required],
-        descricao: ['', Validators.required]
+        name: ['', Validators.required],
+        price: ['', Validators.required],
+        description: ['', Validators.required]
       });
      }
 

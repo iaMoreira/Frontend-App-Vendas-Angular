@@ -1,15 +1,15 @@
-import { BaseEntity } from '../../../core/entities/base-entity';
+import { BaseModel } from '../../../core/models/base.model';
 
-export class Product extends BaseEntity {
-  nome: String;
-  preco: Number;
-  descricao: String;
+export class Product extends BaseModel {
+  name: String;
+  price: Number;
+  description: String;
 
-  constructor(nome: String, preco: Number, descricao: String ){
+  constructor(name: String, price: Number, description: String ){
     super();
-    this.nome = nome;
-    this.preco = preco;
-    this.descricao = descricao;
+    this.name = name;
+    this.price = price;
+    this.description = description;
   }
 
 }

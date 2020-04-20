@@ -12,12 +12,12 @@
   <div class=" w-75">
     <h3>
       <a [title]="product.nome + ' details'"  [routerLink]="['/products', product.id]">
-        {{ product.nome }}
+        {{ product.name }}
       </a>
     </h3>
 
-    <p *ngIf="product.descricao">
-      Description: {{ product.descricao }}
+    <p *ngIf="product.description">
+      Description: {{ product.description }}
     </p>
 
     <div class="d-inline p-2">

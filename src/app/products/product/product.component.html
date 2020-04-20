@@ -1,9 +1,9 @@
 <h3 class="bg-light p-2">
-   <a [routerLink]="['/products']">Lista de Produtos</a> -> {{ product.nome }} </h3>
+   <a [routerLink]="['/products']">Lista de Produtos</a> -> {{ product.name }} </h3>
 
 <div *ngIf="product" class="jumbotron">
-  <h3 class="font-weight-bold">{{ product.nome }}</h3>
-  <h4>{{ product.preco | currency }}</h4>
-  <p>{{ product.descricao }}</p>
+  <h3 class="font-weight-bold">{{ product.name }}</h3>
+  <h4>{{ product.price | currency }}</h4>
+  <p>{{ product.description }}</p>
 
 </div>
