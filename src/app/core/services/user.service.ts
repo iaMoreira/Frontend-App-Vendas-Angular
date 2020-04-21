@@ -64,9 +64,9 @@ export class UserService extends BaseService<User> {
     const route = (type === 'login') ? '/login' : '';
     return this.apiService.post('/users' + route, credentials)
       .pipe(map(
-      data => {
-        this.setAuth(data);
-        return data;
+      user => {
+        this.setAuth(user);
+        return user;
       }
     ));
   }

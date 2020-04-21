@@ -21,7 +21,8 @@ const routes: Routes = [
       },
       {
         path: 'resgister',
-        component: AuthComponent
+        component: AuthComponent,
+        canActivate: [NoAuthGuard]
       },
     ]
   }
