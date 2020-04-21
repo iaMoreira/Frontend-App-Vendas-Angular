@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BaseModel } from '../models/base.model';
-
+import { ResourceData } from '../models/resource-data';
 
 const API_URL = environment.api_url;
 
@@ -24,11 +24,11 @@ export class BaseService<T extends BaseModel> {
     })
   };
 
-  public getAll (): any {
-    return this.api.get(this.baseUrl)
+  public getAll (): Observable<ResourceData> {
+    return this.api.get<ResourceData>(this.baseUrl)
       .pipe(
-        tap(_ => this.log('fetched Products')),
-        catchError(this.handleError<T[]>('getAll', []))
+        tap(_ => this.log('fetched itens')),
+        catchError(this.handleError<ResourceData>('getAll'))
       );
   }
 
