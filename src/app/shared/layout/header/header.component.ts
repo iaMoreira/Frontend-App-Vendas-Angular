@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from 'src/app/core/services/user.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from 'src/app/core/models/user.model';
 
 @Component({
@@ -10,14 +10,14 @@ import { User } from 'src/app/core/models/user.model';
 export class HeaderComponent implements OnInit {
 
   constructor(
-    private userService: UserService,
+    private authService: AuthService,
     private router: Router,
   ) {}
 
   currentUser: User;
 
   ngOnInit() {
-    this.userService.currentUser.subscribe(
+    this.authService.currentUser.subscribe(
       (userData) => {
         this.currentUser = userData;
       }
@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.userService.purgeAuth();
+    this.authService.purgeAuth();
     this.router.navigate(['/']);
   }
 }

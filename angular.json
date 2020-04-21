@@ -95,6 +95,18 @@
             "scripts": []
           }
         },
+        "defaults": {
+          "component": {
+            "spec": false,
+            "inlineStyle": false
+          },
+          "module": {
+            "spec": false
+          },
+          "service": {
+            "spec": false
+          }
+        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {

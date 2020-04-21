@@ -10,7 +10,7 @@ import { BaseService } from './base.service';
 
 
 @Injectable()
-export class UserService extends BaseService<User> {
+export class AuthService {
   private currentUserSubject = new BehaviorSubject<User>({} as User);
   public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
 
@@ -22,16 +22,15 @@ export class UserService extends BaseService<User> {
     private http: HttpClient,
     private jwtService: JwtService
   ) {
-    super(http);
   }
 
   // Verify JWT in localstorage with server & load user's info.
   // This runs once on application startup.
-  populate() {
+  public populate() {
     // If JWT detected, attempt to get & store user's info
     if (this.jwtService.getToken()) {
       console.log("user-auth")
-      this.apiService.get('/users/auth')
+      this.apiService.get('/users/user-auth')
       .subscribe(
         data => this.setAuth(data),
         err => this.purgeAuth()
@@ -42,7 +41,7 @@ export class UserService extends BaseService<User> {
     }
   }
 
-  setAuth(user: User) {
+  private setAuth(user: User) {
     // Save JWT sent from server in localstorage
     this.jwtService.saveToken(user.access_token);
     // Set current user data into observable
@@ -51,7 +50,7 @@ export class UserService extends BaseService<User> {
     this.isAuthenticatedSubject.next(true);
   }
 
-  purgeAuth() {
+  public purgeAuth() {
     // Remove JWT from localstorage
     this.jwtService.destroyToken();
     // Set current user to an empty object
@@ -60,7 +59,7 @@ export class UserService extends BaseService<User> {
     this.isAuthenticatedSubject.next(false);
   }
 
-  attemptAuth(type, credentials): Observable<User> {
+  public attemptAuth(type, credentials): Observable<User> {
     const route = (type === 'login') ? '/login' : '';
     return this.apiService.post('/users' + route, credentials)
       .pipe(map(
@@ -71,19 +70,12 @@ export class UserService extends BaseService<User> {
     ));
   }
 
-  getCurrentUser(): User {
+  public getCurrentUser(): User {
     return this.currentUserSubject.value;
   }
 
-  // Update the user on the server (email, pass, etc)
-  update(user): Observable<User> {
-    return this.apiService
-    .put('/user', { user })
-    .pipe(map(data => {
-      // Update the currentUser observable
-      this.currentUserSubject.next(data.user);
-      return data.user;
-    }));
+  public changePassword(credencials) {
+    return this.apiService.patch('/users/change-password'
+      , credencials).pipe();
   }
-
 }

@@ -50,7 +50,7 @@ export class BaseService<T extends BaseModel> {
       tap(x => x.length ?
           this.log(`found heroes matching "${term}"`) :
           this.log(`no heroes matching "${term}"`)),
-      catchError(this.handleError<T[]>('searchHeroes', []))
+      catchError(this.handleError<T[]>('searchEntityes', []))
     );
   }
 
@@ -60,7 +60,7 @@ export class BaseService<T extends BaseModel> {
   public save (entity: T): Observable<T> {
     return this.api.post<T>(this.baseUrl, entity, this.httpOptions).pipe(
       tap((newEntity: T) => this.log(`added entity w/ id=${newEntity.id}`)),
-      catchError(this.handleError<T>('addHero'))
+      catchError(this.handleError<T>('addEntity'))
     );
   }
 
@@ -70,7 +70,7 @@ export class BaseService<T extends BaseModel> {
 
     return this.api.delete<T>(url, this.httpOptions).pipe(
       tap(_ => this.log(`deleted entity id=${id}`)),
-      catchError(this.handleError<T>('deleteHero'))
+      catchError(this.handleError<T>('deleteEntity'))
     );
   }
 
@@ -80,7 +80,7 @@ export class BaseService<T extends BaseModel> {
 
     return this.api.put(url , entity, this.httpOptions).pipe(
       tap(_ => this.log(`updated entity id=${entity.id}`)),
-      catchError(this.handleError<any>('updateHero'))
+      catchError(this.handleError<any>('updateEntity'))
     );
   }
 

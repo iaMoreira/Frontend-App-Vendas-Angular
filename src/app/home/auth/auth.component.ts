@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Errors} from '../../core/models/erros.model';
-import { UserService } from 'src/app/core/services/user.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -19,7 +19,7 @@ export class AuthComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService,
+    private authService: AuthService,
     private fb: FormBuilder
   ) {
     // use FormBuilder to create a form group
@@ -47,7 +47,7 @@ export class AuthComponent implements OnInit {
     this.errors = {errors: {}};
 
     const credentials = this.authForm.value;
-    this.userService
+    this.authService
     .attemptAuth(this.authType, credentials)
     .subscribe(
       data => this.router.navigateByUrl('/'),

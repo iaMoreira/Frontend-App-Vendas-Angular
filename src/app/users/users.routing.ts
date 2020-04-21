@@ -1,7 +1,9 @@
 import { Routes, RouterModule } from '@angular/router';
 import { UsersComponent } from './users.component';
 import { AuthGuard } from '../core/services/auth-guard.service';
-import { UsersListComponent } from './users-list/users-list.component';
+import { UserStoreComponent } from './user-store/user-store.component';
+import { UserComponent } from './user/user.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 const routes: Routes = [
   {
@@ -9,10 +11,10 @@ const routes: Routes = [
     component: UsersComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', component: UsersListComponent }, // /users
-      // { path: 'store', component: ProductStoreComponent }, // users/store
-      // { path: ':id/edit', component: ProductStoreComponent }, //
-      // { path: ':id', component: ProductComponent },
+      { path: '', component: UserListComponent }, // users
+      { path: 'store', component: UserStoreComponent }, // users/store
+      { path: ':id/edit', component: UserStoreComponent }, // users/:id/edit
+      { path: ':id', component: UserComponent }, // users/:id
     ]
   }
 

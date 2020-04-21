@@ -1,0 +1,29 @@
+
+<div class="d-flex justify-content-between bg-light p-2 mb-2">
+  <h3> Lista de Usuários </h3>
+  <a class="btn btn-primary" [routerLink]="['/users/store']">Novo usuário</a>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col" class="w-50">Nome</th>
+      <th scope="col" class="w-25">Email</th>
+      <th scope="col" class="w-25 text-center">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <th scope="row"> {{user.id}}</th>
+      <td>{{user.name}}</td>
+      <td>{{user.email}}</td>
+      <td class="d-flex justify-content-center">
+        <a [routerLink]="['/users/', user.id]" class="btn btn-info mr-2">Exibir</a>
+        <a [routerLink]="['/users/', user.id, 'edit']" class="btn btn-primary mr-2" >Atualizar</a>
+        <button (click)="delete(user.id)" class="btn btn-danger"> Deletar</button>
+      </td>
+    </tr>
+
+  </tbody>
+</table>

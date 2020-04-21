@@ -1,0 +1,32 @@
+<div >
+  <div class="container page">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 col-xs-12">
+        <h1 class="text-center"> Trocar senha </h1>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <fieldset >
+            <fieldset class="form-group">
+              <input
+                formControlName="currentPassword"
+                placeholder="Senha Atual"
+                class="form-control form-control-lg"
+                type="password" />
+            </fieldset>
+
+            <fieldset class="form-group">
+              <input
+                formControlName="newPassword"
+                placeholder="Nova Senha"
+                class="form-control form-control-lg"
+                type="password" />
+            </fieldset>
+            <button class="btn btn-lg btn-primary float-right" type="submit">
+              Alterar
+            </button>
+          </fieldset>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

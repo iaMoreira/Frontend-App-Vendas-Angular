@@ -42,8 +42,6 @@ export class ProductStoreComponent implements OnInit {
           this.form.patchValue(this.product);
 
         });
-
-
     }
   }
 
