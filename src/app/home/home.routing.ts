@@ -6,6 +6,8 @@ import { AuthComponent } from './auth/auth.component';
 import { NoAuthGuard } from '../core/services/no-auth-guard.service';
 import { SettingsComponent } from './settings/settings.component';
 import { AuthGuard } from '../core/services/auth-guard.service';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -30,7 +32,18 @@ const routes: Routes = [
         path: 'settings',
         component: SettingsComponent,
         canActivate: [AuthGuard]
+      },
+      {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent,
+        canActivate: [NoAuthGuard]
+      },
+      {
+        path: 'reset-password',
+        component: ResetPasswordComponent,
+        canActivate: [NoAuthGuard]
       }
+
     ]
   }
 

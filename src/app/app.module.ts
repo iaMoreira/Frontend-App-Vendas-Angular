@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // modulos da aplicação
 import { ProductsModule } from './products/products.module';
@@ -31,7 +30,6 @@ import { UsersModule } from './users/users.module';
       SharedModule,
       CoreModule,
       UsersModule,
-      FontAwesomeModule
 
    ],
    providers: [],
